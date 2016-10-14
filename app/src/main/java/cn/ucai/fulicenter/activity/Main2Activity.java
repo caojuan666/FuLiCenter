@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.utils.MFGT;
 
 public class Main2Activity extends AppCompatActivity {
     private static long sleepTime=2000;
@@ -31,7 +32,11 @@ public class Main2Activity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-                startActivity(new Intent(Main2Activity.this,MainActivity.class));
+//                startActivity(new Intent(Main2Activity.this,MainActivity.class));
+                MFGT.gotoMainActivity(Main2Activity.this);
+
+
+
 
 
             }
