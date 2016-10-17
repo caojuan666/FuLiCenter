@@ -39,6 +39,8 @@ public class NewGoodsBean {
     private String goodsImg;
     private long addTime;
     private String shareUrl;
+    public int length;
+
 
     public int getId() {
         return id;

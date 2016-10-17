@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,11 +25,13 @@ import cn.ucai.fulicenter.utils.ImageLoader;
 public class NewGoodAdapter extends Adapter {
     TextView mTvDes, mTvSprice;
     Context mContext;
-    ArrayList<NewGoodsBean> mList;
+    List<NewGoodsBean> mList;
 
-    public NewGoodAdapter(Context mContext, ArrayList<NewGoodsBean> mList) {
-        this.mContext = mContext;
-        this.mList = mList;
+    public NewGoodAdapter(Context context, List<NewGoodsBean> list) {
+        mContext = context;
+        mList = new ArrayList<>();
+        mList.addAll(list);
+
     }
 
     //创建
@@ -78,10 +81,17 @@ public class NewGoodAdapter extends Adapter {
         }
 //        return super.getItemViewType(position);
     }
+    public void initData(ArrayList<NewGoodsBean> list) {
+        if(mList!=null){
+            this.mList.clear();
+
+        }
+        this.mList.addAll(list);
+//        刷新
+        notifyDataSetChanged();
 
 
-
-
+    }
     static class GoodsViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.imPic)
         ImageView imPic;
