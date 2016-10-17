@@ -5,18 +5,24 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
+import cn.ucai.fulicenter.utils.ImageLoader;
 
 /**
  * Created by Administrator on 2016/10/17 0017.
  */
-
-public class NewGoodAdapter  extends Adapter {
+//适配器
+public class NewGoodAdapter extends Adapter {
+    TextView mTvDes, mTvSprice;
     Context mContext;
     ArrayList<NewGoodsBean> mList;
 
@@ -24,29 +30,44 @@ public class NewGoodAdapter  extends Adapter {
         this.mContext = mContext;
         this.mList = mList;
     }
-//判断
+
+    //创建
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder holder = null;
-        if(viewType==I.TYPE_FOOTER){
-            holder = new FooterViewHolder(View.inflate(mContext, R.layout.item_footer,null));
-        }else{
-            holder = new GoodsViewHolder(View.inflate(mContext,R.layout.item_newgoods,null));
+        if (viewType == I.TYPE_FOOTER) {
+            holder = new FooterViewHolder(View.inflate(mContext, R.layout.item_footer, null));
+        } else {
+            holder = new GoodsViewHolder(View.inflate(mContext, R.layout.item_newgoods, null));
         }
 
         return holder;
     }
 
+    //绑定商品的名字与价格（访问数据）
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (getItemViewType(position) == I.TYPE_FOOTER) {
+
+        } else {
+            GoodsViewHolder v = (GoodsViewHolder) holder;
+            NewGoodsBean goods = mList.get(position);
+           ImageLoader.downloadImg(mContext,v.imPic,goods.getGoodsThumb());
+            v.tvDes.setText(goods.getGoodsName());
+            v.tvSprice.setText(goods.getCurrencyPrice());
+
+        }
+
 
     }
-//返回
+
+    //返回
     @Override
     public int getItemCount() {
-        return mList!=null?mList.size()+1:1;
+        return mList != null ? mList.size() + 1 : 1;
     }
-//
+
+    //
     @Override
     public int getItemViewType(int position) {
         if (position == getItemCount() - 1) {
@@ -58,15 +79,31 @@ public class NewGoodAdapter  extends Adapter {
 //        return super.getItemViewType(position);
     }
 
-    private class FooterViewHolder extends RecyclerView.ViewHolder {
-        public FooterViewHolder(View inflate) {
-            super(inflate);
+
+
+
+    static class GoodsViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.imPic)
+        ImageView imPic;
+        @BindView(R.id.tvDes)
+        TextView tvDes;
+        @BindView(R.id.tvSprice)
+        TextView tvSprice;
+
+        GoodsViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
         }
     }
 
-    private class GoodsViewHolder extends RecyclerView.ViewHolder {
-        public GoodsViewHolder(View inflate) {
-            super(inflate);
+    static class FooterViewHolder  extends RecyclerView.ViewHolder{
+        @BindView(R.id.tvfooter)
+        TextView tvfooter;
+
+        FooterViewHolder(View view) {
+            super(view);
+
+            ButterKnife.bind(this, view);
         }
     }
 }
