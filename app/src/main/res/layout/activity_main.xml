@@ -3,28 +3,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!-- 底部菜单栏-->
-    <RadioGroup
+    <LinearLayout
         android:id="@+id/llMenu"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         android:background="#36f"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
         <RadioButton
             android:id="@+id/btnNewGoods"
             style="@style/menu_item_style"
             android:drawableTop="@drawable/selector_menu_item_new_good"
             android:text="新品"
-            android:onClick="onClick"
-            android:button="@null"/>
+            android:button="@null"
+            />
 
         <RadioButton
             android:id="@+id/btnBoutique"
             style="@style/menu_item_style"
             android:drawableTop="@drawable/selector_menu_item_boutique"
             android:text="精品"
-            android:button="@null"/>
+            android:button="@null"
+            />
 
         <RadioButton
             android:id="@+id/btnCategory"
@@ -44,27 +46,29 @@
             android:id="@+id/layoutCart"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            style="@style/menu_item_style"
+            >
 
-            <TextView
+            <RadioButton
                 android:id="@+id/tvshop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                style="@style/menu_item_style_cart"
                 android:drawableTop="@drawable/selector_menu_item_cart"
-                android:text="购物车"
-                android:textColor="#fff"
-                android:textSize="18sp" />
-
+                android:text="购物"
+                android:button="@null"
+                android:layout_centerInParent="true"
+                />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:background="#f60"
+                android:layout_centerInParent="true"
                 android:text="10"
-                android:textColor="#000" />
+                android:background="@drawable/cart_hint"
+                />
+
+
         </RelativeLayout>
 
-    </RadioGroup>
+    </LinearLayout>
 </RelativeLayout>
