@@ -22,6 +22,7 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.MainActivity;
 import cn.ucai.fulicenter.adapter.NewGoodAdapter;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
+import cn.ucai.fulicenter.net.CommonUtils;
 import cn.ucai.fulicenter.net.ConvertUtils;
 import cn.ucai.fulicenter.net.NetDao;
 import cn.ucai.fulicenter.net.OkHttpUtils;
@@ -57,6 +58,10 @@ public class NewGoodsFragment extends Fragment {
                 new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
             @Override
             public void onSuccess(NewGoodsBean[] result) {
+//                处理“刷新中”隐藏
+                srl.setRefreshing(false);
+                tvRefresh.setVisibility(View.GONE);
+
                 if(result!=null&&result.length>0){
                     ArrayList<NewGoodsBean> list = ConvertUtils.array2List(result);
                     mAdapter.initData(list);
@@ -66,6 +71,9 @@ public class NewGoodsFragment extends Fragment {
 
             @Override
             public void onError(String error) {
+//                添加工具
+                CommonUtils.showShortToast(error);
+
                 L.e("error"+error);
 
             }
