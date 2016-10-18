@@ -27,14 +27,27 @@ public class NewGoodAdapter extends Adapter {
     Context mContext;
     List<NewGoodsBean> mList;
 
+    public boolean isMore() {
+        return isMore;
+    }
+
+    public void setMore(boolean more) {
+        isMore = more;
+        notifyDataSetChanged();
+    }
+
+    boolean isMore;
+
     public NewGoodAdapter(Context context, List<NewGoodsBean> list) {
         mContext = context;
         mList = new ArrayList<>();
         mList.addAll(list);
 
+
     }
 
     //创建
+//
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder holder = null;
@@ -51,7 +64,9 @@ public class NewGoodAdapter extends Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == I.TYPE_FOOTER) {
+        FooterViewHolder  v = (FooterViewHolder) holder;
 
+            v.tvfooter.setText(getFooterString());
         } else {
             GoodsViewHolder v = (GoodsViewHolder) holder;
             NewGoodsBean goods = mList.get(position);
@@ -62,6 +77,11 @@ public class NewGoodAdapter extends Adapter {
         }
 
 
+    }
+
+    private int getFooterString() {
+
+        return isMore?R.string.load_more:R.string.no_more;
     }
 
     //返回
