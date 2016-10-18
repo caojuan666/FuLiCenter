@@ -28,6 +28,7 @@ import cn.ucai.fulicenter.net.ConvertUtils;
 import cn.ucai.fulicenter.net.NetDao;
 import cn.ucai.fulicenter.net.OkHttpUtils;
 import cn.ucai.fulicenter.utils.L;
+import cn.ucai.fulicenter.view.SpaceItemDecoration;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -149,6 +150,7 @@ public class NewGoodsFragment extends Fragment {
         mList = new ArrayList<>();
         mAdapter = new NewGoodAdapter(mContext,mList);
         rv.setAdapter(mAdapter);
+        rv.addItemDecoration(new SpaceItemDecoration(12));
     }
 }
 
