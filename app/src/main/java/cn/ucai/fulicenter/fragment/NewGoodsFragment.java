@@ -1,6 +1,7 @@
 package cn.ucai.fulicenter.fragment;
 
 
+import android.animation.StateListAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -42,6 +43,7 @@ public class NewGoodsFragment extends Fragment {
     NewGoodAdapter mAdapter;
     ArrayList<NewGoodsBean> mList;
         int pageId = 1;
+    GridLayoutManager glm;
 
     @Nullable
     @Override
@@ -50,43 +52,85 @@ public class NewGoodsFragment extends Fragment {
         ButterKnife.bind(this, layout);
         initView();
         initDate();
+        setListener();
         return layout;
     }
 
-    private void initDate() {
+    private void setListener() {
+        setPullup();
+        setPulldown();
+    }
+
+    private void setPulldown() {
+        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                srl.setRefreshing(true);
+               tvRefresh.setCursorVisible(true);
+                downloadNewGoods(I.ACTION_PULL_DOWN);
+            }
+        });
+}
+
+    private void downloadNewGoods(final int action) {
         NetDao.downloadNewGoods(mContext, pageId,
                 new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
-            @Override
-            public void onSuccess(NewGoodsBean[] result) {
+                    @Override
+                    public void onSuccess(NewGoodsBean[] result) {
 //                处理“刷新中”隐藏
-                srl.setRefreshing(false);
-                tvRefresh.setVisibility(View.GONE);
+                        srl.setRefreshing(false);
+                        tvRefresh.setVisibility(View.GONE);
 
-                if(result!=null&&result.length>0){
-                    ArrayList<NewGoodsBean> list = ConvertUtils.array2List(result);
-                    mAdapter.initData(list);
-                    if(list.size()<I.PAGE_ID_DEFAULT){
-                        mAdapter.setMore(false);
-                    }else {
-                        mAdapter.setMore(true);
+                        if(result!=null&&result.length>0){
+                            ArrayList<NewGoodsBean> list = ConvertUtils.array2List(result);
+                            if(action==I.ACTION_DOWNLOAD||action==I.ACTION_PULL_DOWN){
+                                mAdapter.initData(list);
+                            }else{
+                                mAdapter.addDate(list);
+                            }
+//
+                            if(list.size()<I.PAGE_ID_DEFAULT){
+                                mAdapter.setMore(false);
+                            }else {
+                                mAdapter.setMore(true);
+                            }
+                        }
                     }
-                }
+                    @Override
+                    public void onError(String error) {
+//                添加工具
+                        CommonUtils.showShortToast(error);
 
+                        L.e("error"+error);
+
+                    }
+                });
+    }
+    private void setPullup() {
+        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+             int lastpostion=   glm.findLastVisibleItemPosition();
+           if(newState==RecyclerView.SCROLL_STATE_IDLE
+                   &&lastpostion==mAdapter.getItemCount()-1
+                   &&mAdapter.isMore()){
+               pageId++;
+               downloadNewGoods(I.ACTION_PULL_UP);
+
+           }
             }
 
             @Override
-            public void onError(String error) {
-//                添加工具
-                CommonUtils.showShortToast(error);
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
-                L.e("error"+error);
-
+                super.onScrolled(recyclerView, dx, dy);
             }
-
-
         });
 
+    }
 
+    private void initDate() {
+        downloadNewGoods(I.ACTION_DOWNLOAD);
     }
 
     private void initView() {
@@ -98,7 +142,7 @@ public class NewGoodsFragment extends Fragment {
 
         );
         mContext= (MainActivity) getContext();
-        GridLayoutManager glm = new GridLayoutManager(mContext, I.COLUM_NUM);
+         glm = new GridLayoutManager(mContext, I.COLUM_NUM);
 //        是否修饰大小
         rv.setLayoutManager(glm);
         rv.setHasFixedSize(true);

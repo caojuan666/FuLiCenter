@@ -112,6 +112,12 @@ public class NewGoodAdapter extends Adapter {
 
 
     }
+
+    public void addDate(ArrayList<NewGoodsBean> list) {
+        mList.addAll(list);
+        notifyDataSetChanged();
+    }
+
     static class GoodsViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.imPic)
         ImageView imPic;
