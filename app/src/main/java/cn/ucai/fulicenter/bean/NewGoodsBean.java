@@ -40,6 +40,8 @@ public class NewGoodsBean {
     private long addTime;
     private String shareUrl;
     public int length;
+    public boolean getProperties;
+    private int[] properties;
 
 
     public int getId() {
@@ -182,4 +184,6 @@ public class NewGoodsBean {
                 ", shareUrl='" + shareUrl + '\'' +
                 '}';
     }
+
+
 }
