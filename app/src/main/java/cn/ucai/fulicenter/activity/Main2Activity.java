@@ -7,12 +7,12 @@ import android.os.Bundle;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.utils.MFGT;
 
-public class Main2Activity extends AppCompatActivity {
+public class Main2Activity extends BaseActivty {
     private static long sleepTime=2000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -41,5 +41,20 @@ public class Main2Activity extends AppCompatActivity {
 
             }
         }).start();
+    }
+
+    @Override
+    protected void setListener() {
+
+    }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void intiView() {
+
     }
 }
