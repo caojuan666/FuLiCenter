@@ -36,7 +36,7 @@ import static cn.ucai.fulicenter.utils.L.i;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BoutiqoeFragment extends Fragment {
+public class BoutiqoeFragment extends BaseFragment {
 
 
     @BindView(R.id.tv_refresh)
@@ -65,13 +65,31 @@ public class BoutiqoeFragment extends Fragment {
         mContext = (MainActivity) getContext();
         mList = new ArrayList<>();
         mAdapter = new BoutiqueBeanAdapter(mContext, mList);
-        initView();
-        initData();
+//        initView();
+//        initData();
         return layout;
     }
 
-    private void initData() {
+    @Override
+    protected void initDate() {
         downloadBoutique(I.ACTION_DOWNLOAD);
+    }
+
+    @Override
+    protected void setListener() {
+        setPulldown();
+
+    }
+
+    private void setPulldown() {
+        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                srl.setRefreshing(true);
+                tvRefresh.setCursorVisible(true);
+                downloadBoutique(I.ACTION_PULL_DOWN);
+            }
+        });
     }
 
     private void downloadBoutique(final int action) {
@@ -109,7 +127,8 @@ public class BoutiqoeFragment extends Fragment {
 
     }
 
-    private void initView() {
+    @Override
+    protected void initView() {
         srl.setColorSchemeColors(
                 getResources().getColor(R.color.google_blue),
                 getResources().getColor(R.color.google_green),
