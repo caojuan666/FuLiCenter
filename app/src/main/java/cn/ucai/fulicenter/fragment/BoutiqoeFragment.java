@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,8 @@ import cn.ucai.fulicenter.net.OkHttpUtils;
 import cn.ucai.fulicenter.utils.L;
 import cn.ucai.fulicenter.view.SpaceItemDecoration;
 
+import static cn.ucai.fulicenter.utils.L.i;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -48,6 +51,7 @@ public class BoutiqoeFragment extends Fragment {
     ArrayList<BoutiqueBean> mList;
 
     public BoutiqoeFragment() {
+
         // Required empty public constructor
     }
 
@@ -59,9 +63,10 @@ public class BoutiqoeFragment extends Fragment {
         View layout = inflater.inflate(R.layout.fragment_new_goods, container, false);
         ButterKnife.bind(this, layout);
         mContext = (MainActivity) getContext();
+        mList = new ArrayList<>();
         mAdapter = new BoutiqueBeanAdapter(mContext, mList);
         initView();
-
+        initData();
         return layout;
     }
 
@@ -73,11 +78,13 @@ public class BoutiqoeFragment extends Fragment {
         NetDao.downloadBoutique(mContext, new OkHttpUtils.OnCompleteListener<BoutiqueBean[]>() {
             @Override
             public void onSuccess(BoutiqueBean[] result) {
-                ArrayList<BoutiqueBean> list = ConvertUtils.array2List(result);
+                Log.i("main:", "r="+result);
                 srl.setRefreshing(false);
                 tvRefresh.setVisibility(View.GONE);
-
+//
                 if(result!=null&&result.length>0){
+                    ArrayList<BoutiqueBean> list = ConvertUtils.array2List(result);
+                    Log.i("main:", "s="+list.size());
                     if(action==I.ACTION_DOWNLOAD||action==I.ACTION_PULL_DOWN){
                         mAdapter.initData(list);
                     }else{

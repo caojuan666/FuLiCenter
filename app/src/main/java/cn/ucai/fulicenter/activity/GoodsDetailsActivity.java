@@ -87,7 +87,7 @@ public class GoodsDetailsActivity extends AppCompatActivity {
             }
 
             private int getAlbumImgCount(GoodsDetailsBean goodsDetailsBean) {
-                if (goodsDetailsBean.getProperties() != null && goodsDetailsBean.getProperties().toString().length() > 0) {
+                if (goodsDetailsBean.getProperties() != null && goodsDetailsBean.getProperties().length > 0) {
                     return goodsDetailsBean.getProperties()[0].getAlbums().length;
                 }
                 return 0;
@@ -98,7 +98,7 @@ public class GoodsDetailsActivity extends AppCompatActivity {
                 String[] urls = new String[]{};
                 if (goodsDetailsBean.getProperties() != null && goodsDetailsBean.getProperties().length > 0) {
                     Albums[] albums = goodsDetailsBean.getProperties()[0].getAlbums();
-                    urls = new String[albums.toString().length()];
+                    urls = new String[albums.length];
                     for (int i = 0;i<albums.length;i++){
                         urls[i]=albums[i].getImgUrl();
                     }

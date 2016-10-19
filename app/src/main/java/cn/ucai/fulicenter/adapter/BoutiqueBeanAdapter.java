@@ -19,9 +19,6 @@ import cn.ucai.fulicenter.bean.BoutiqueBean;
 import cn.ucai.fulicenter.utils.ImageLoader;
 import cn.ucai.fulicenter.view.FooterViewHolder;
 
-/**
- * Created by Administrator on 2016/10/19 0019.
- */
 
 public class BoutiqueBeanAdapter extends RecyclerView.Adapter {
     Context mContext;
@@ -47,7 +44,6 @@ public class BoutiqueBeanAdapter extends RecyclerView.Adapter {
         }
         return holder;
     }
-
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof FooterViewHolder) {
@@ -83,6 +79,7 @@ public class BoutiqueBeanAdapter extends RecyclerView.Adapter {
     }
 
     public void setMore(boolean b) {
+
     }
 
     public void initData(ArrayList<BoutiqueBean> list) {
