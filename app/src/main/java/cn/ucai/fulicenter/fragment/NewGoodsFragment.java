@@ -74,8 +74,7 @@ public class NewGoodsFragment extends Fragment {
 }
 
     private void downloadNewGoods(final int action) {
-        NetDao.downloadNewGoods(mContext, pageId,
-                new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
+        NetDao.downloadNewGoods(mContext, pageId,new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>(){
                     @Override
                     public void onSuccess(NewGoodsBean[] result) {
 //                处理“刷新中”隐藏
@@ -89,7 +88,6 @@ public class NewGoodsFragment extends Fragment {
                             }else{
                                 mAdapter.addDate(list);
                             }
-//
                             if(list.size()<I.PAGE_ID_DEFAULT){
                                 mAdapter.setMore(false);
                             }else {
