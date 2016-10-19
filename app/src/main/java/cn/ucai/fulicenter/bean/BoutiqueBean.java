@@ -56,7 +56,7 @@ public class BoutiqueBean {
 
     @Override
     public String toString() {
-        return "BoutiqueBean{" +
+        return "BoutiqueBeanAdapter{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
