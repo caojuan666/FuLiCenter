@@ -23,9 +23,12 @@ import cn.ucai.fulicenter.net.ConvertUtils;
 import cn.ucai.fulicenter.net.NetDao;
 import cn.ucai.fulicenter.net.OkHttpUtils;
 import cn.ucai.fulicenter.utils.L;
+import cn.ucai.fulicenter.utils.MFGT;
 import cn.ucai.fulicenter.view.SpaceItemDecoration;
 
 public class CategoryChildActivity extends BaseActivty {
+
+    public static final String TAG = CategoryChildActivity.class.getName();
 
     @BindView(R.id.rv_head)
     RelativeLayout rvHead;
@@ -42,6 +45,7 @@ public class CategoryChildActivity extends BaseActivty {
     int catId;
     GridLayoutManager glm;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_category_child);
@@ -49,6 +53,11 @@ public class CategoryChildActivity extends BaseActivty {
         mContext = this;
         mList = new ArrayList<>();
         mAdapter = new NewGoodAdapter(mContext, mList);
+        catId = getIntent().getIntExtra(I.CategoryChild.CAT_ID,0);
+        L.e(TAG,"catId======="+catId);
+        if(catId==0){
+            finish();
+        }
         super.onCreate(savedInstanceState);
     }
 
@@ -63,13 +72,14 @@ public class CategoryChildActivity extends BaseActivty {
             public void onRefresh() {
                 srl.setRefreshing(true);
                 tvRefresh.setCursorVisible(true);
-                downloadNewGoods(I.ACTION_PULL_DOWN);
+                pageId =1;
+                downloadCategoryGoods(I.ACTION_PULL_DOWN);
             }
         });
     }
 
-    private void downloadNewGoods(final int action) {
-        NetDao.downloadNewGoods(mContext,catId, pageId,new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>(){
+    private void downloadCategoryGoods(final int action) {
+        NetDao.downloadCategoryGoods(mContext,catId, pageId,new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>(){
             @Override
             public void onSuccess(NewGoodsBean[] result) {
 //                处理“刷新中”隐藏
@@ -109,7 +119,7 @@ public class CategoryChildActivity extends BaseActivty {
                         &&lastpostion==mAdapter.getItemCount()-1
                         &&mAdapter.isMore()){
                     pageId++;
-                    downloadNewGoods(I.ACTION_PULL_UP);
+                    downloadCategoryGoods(I.ACTION_PULL_UP);
 
                 }
             }
@@ -118,6 +128,8 @@ public class CategoryChildActivity extends BaseActivty {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
                 super.onScrolled(recyclerView, dx, dy);
+//                int firstPosition = glm.findFirstVisibleItemPosition();
+//                srl.setEnabled(firstPosition==0);
             }
         });
 
@@ -125,7 +137,7 @@ public class CategoryChildActivity extends BaseActivty {
 
     @Override
     protected void initData() {
-        downloadNewGoods(I.ACTION_DOWNLOAD);
+        downloadCategoryGoods(I.ACTION_DOWNLOAD);
     }
 
     @Override
@@ -139,6 +151,7 @@ public class CategoryChildActivity extends BaseActivty {
         );
 
         glm = new GridLayoutManager(mContext, I.COLUM_NUM);
+        glm.setOrientation(LinearLayoutManager.VERTICAL);
 //        是否修饰大小
         rv.setLayoutManager(glm);
         rv.setHasFixedSize(true);
@@ -149,6 +162,7 @@ public class CategoryChildActivity extends BaseActivty {
     }
     @OnClick(R.id.title_back_imageView)
     public void onClick() {
+        MFGT.finish(this);
 
     }
 }

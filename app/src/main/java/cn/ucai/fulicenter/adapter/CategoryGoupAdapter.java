@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.CategoryChildBean;
 import cn.ucai.fulicenter.bean.CategoryGroupBean;
 import cn.ucai.fulicenter.utils.ImageLoader;
+import cn.ucai.fulicenter.utils.MFGT;
 
 /**
  * Created by Administrator on 2016/10/20 0020.
@@ -111,16 +113,20 @@ public class CategoryGoupAdapter extends BaseExpandableListAdapter {
             view = View.inflate(mContext, R.layout.category_child, null);
             holder = new ChildViewHolder(view);
             view.setTag(holder);
-
-
         }else{
             view.getTag();
             holder = (ChildViewHolder) view.getTag();
         }
-        CategoryChildBean child = getChild(groupPosition, childPosition);
+        final CategoryChildBean child = getChild(groupPosition, childPosition);
         if(child!=null){
             ImageLoader.downloadImg(mContext,holder.imageChildPicture,child.getImageUrl());
             holder.tvChildName.setText(child.getName());
+            holder.llM.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MFGT.gotoCategoryChildActivity(mContext,child.getId());
+                }
+            });
 
         }
         return view;
@@ -163,7 +169,7 @@ public class CategoryGoupAdapter extends BaseExpandableListAdapter {
         @BindView(R.id.tvChildName)
         TextView tvChildName;
         @BindView(R.id.llM)
-        LinearLayout llM;
+        RelativeLayout llM;
 
         ChildViewHolder(View view) {
             ButterKnife.bind(this, view);
