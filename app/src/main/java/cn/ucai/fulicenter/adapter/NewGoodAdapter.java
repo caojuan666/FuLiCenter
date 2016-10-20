@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -34,13 +36,20 @@ public class NewGoodAdapter extends Adapter {
     Context mContext;
     TextView mTvDes, mTvSprice;
     List<NewGoodsBean> mList;
-
+    int soryBy=I.SORT_BY_ADDTIME_DESC;//降序的依据
     public boolean isMore() {
         return isMore;
     }
 
     public void setMore(boolean more) {
         isMore = more;
+        notifyDataSetChanged();
+    }
+//
+    public void setSoryBy(int soryBy) {
+        this.soryBy = soryBy;
+        sortBy();
+//        更新页面
         notifyDataSetChanged();
     }
 
@@ -140,6 +149,40 @@ public class NewGoodAdapter extends Adapter {
             MFGT.gotoDetailsActivity(mContext,goodsId);
 
         }
+    }
+//
+    private void sortBy(){
+//        自动支持List排序，重写Comparaator方法，冒泡排序
+        Collections.sort(mList, new Comparator<NewGoodsBean>() {
+            @Override
+            public int compare(NewGoodsBean left, NewGoodsBean right) {
+//                he
+                int result=0;
+                switch (soryBy){
+//                    时间排序
+                    case I.SORT_BY_ADDTIME_ASC:
+                        result=(int) (Long.valueOf(left.getAddTime())-Long.valueOf(right.getAddTime()));
+                        break;
+                    case I.SORT_BY_ADDTIME_DESC:
+                        result=(int) (Long.valueOf(right.getAddTime())-Long.valueOf(left.getAddTime()));
+                        break;
+                    case I.SORT_BY_PRICE_ASC:
+                        result = getPrice(left.getCurrencyPrice()) - getPrice(right.getCurrencyPrice());
+
+                        break;
+                    case I.SORT_BY_PRICE_DESC:
+                        result = getPrice(right.getCurrencyPrice()) - getPrice(left.getCurrencyPrice());
+
+                        break;
+                }
+                return result;
+            }
+            private int getPrice(String price){
+                price =price.substring(price.indexOf("￥")+1);
+                return Integer.valueOf(price);
+            }
+
+        });
     }
 
 }
