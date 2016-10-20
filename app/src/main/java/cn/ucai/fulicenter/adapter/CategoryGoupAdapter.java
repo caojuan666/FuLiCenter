@@ -22,9 +22,10 @@ import cn.ucai.fulicenter.utils.ImageLoader;
  */
 
 public class CategoryGoupAdapter extends BaseExpandableListAdapter {
+//    拿到数量要写一个集合，然后进行构造方法
     Context mContext;
-    ArrayList<ArrayList<CategoryChildBean>> mChildList;
-    ArrayList<CategoryGroupBean> mGroupList;
+    ArrayList<ArrayList<CategoryChildBean>> mChildList;//小类的数量
+    ArrayList<CategoryGroupBean> mGroupList;//大类的数量
     @BindView(R.id.imageView)
     ImageView imageView;
     @BindView(R.id.tvName)
@@ -36,29 +37,30 @@ public class CategoryGoupAdapter extends BaseExpandableListAdapter {
         mContext = context;
         mGroupList = new ArrayList<>();
         mGroupList.addAll(groupList);
-        mChildList = new ArrayList<>()
-        ;
+        mChildList = new ArrayList<>();
+
         mChildList.addAll(childList);
 
 
     }
 
-
+//获取大类总的数量（长度）
     @Override
     public int getGroupCount() {
         return mGroupList != null ? mGroupList.size() : 0;
     }
+//获取晓得总的数量
 
     @Override
     public int getChildrenCount(int groupPosition) {
         return mChildList != null && mChildList.get(groupPosition) != null ? mChildList.get(groupPosition).size() : 0;
     }
-
+//获取数据
     @Override
     public CategoryGroupBean getGroup(int groupPosition) {
         return mGroupList != null ? mGroupList.get(groupPosition) : null;
     }
-
+//
     @Override
     public CategoryChildBean getChild(int groupPosition, int childPosition) {
         return mChildList != null && mChildList.get(groupPosition) != null ?
@@ -119,6 +121,7 @@ public class CategoryGoupAdapter extends BaseExpandableListAdapter {
         if(child!=null){
             ImageLoader.downloadImg(mContext,holder.imageChildPicture,child.getImageUrl());
             holder.tvChildName.setText(child.getName());
+
         }
         return view;
     }
@@ -126,6 +129,19 @@ public class CategoryGoupAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;
+    }
+
+    public void initData(ArrayList<CategoryGroupBean> groupList,
+                         ArrayList<ArrayList<CategoryChildBean>> childList) {
+        if(mGroupList!=null){
+            mGroupList.clear();
+        }
+        mGroupList.addAll(groupList);
+        if(mGroupList!=null){
+            mChildList.clear();
+        }
+        mChildList.addAll(childList);
+        notifyDataSetChanged();
     }
 
     static class GroupViewHolder {
