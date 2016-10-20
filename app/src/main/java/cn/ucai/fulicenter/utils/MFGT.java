@@ -6,6 +6,8 @@ import android.content.Intent;
 
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.activity.BaseActivty;
+import cn.ucai.fulicenter.activity.BoutiqueActivity;
 import cn.ucai.fulicenter.activity.GoodsDetailsActivity;
 import cn.ucai.fulicenter.activity.MainActivity;
 
@@ -33,4 +35,11 @@ public class MFGT {
         context.startActivity(intent);
         ((Activity)context).overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
     }
+    public static void gotoBoutiqueActivity(Context context,int catId){
+        Intent intent = new Intent();
+        intent.setClass(context, BoutiqueActivity.class);
+        intent.putExtra(I.Boutique.CAT_ID, catId);
+        startActivity(context,intent);
+    }
+
 }

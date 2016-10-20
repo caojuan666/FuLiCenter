@@ -107,10 +107,9 @@ public class NewGoodAdapter extends Adapter {
     }
     public void initData(ArrayList<NewGoodsBean> list) {
         if(mList!=null){
-            this.mList.clear();
-
+            mList.clear();
         }
-        this.mList.addAll(list);
+        mList.addAll(list);
 //        刷新
         notifyDataSetChanged();
 

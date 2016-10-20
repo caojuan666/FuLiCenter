@@ -22,7 +22,7 @@ import cn.ucai.fulicenter.utils.MFGT;
 import cn.ucai.fulicenter.view.FlowIndicator;
 import cn.ucai.fulicenter.view.SlideAutoLoopView;
 
-public class GoodsDetailsActivity extends AppCompatActivity {
+public class GoodsDetailsActivity extends BaseActivty {
     int goodsID;
     GoodsDetailsActivity mContext;
     @BindView(R.id.title_back_imageView)
@@ -45,7 +45,6 @@ public class GoodsDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_details);
         ButterKnife.bind(this);
         goodsID = getIntent().getIntExtra(I.GoodsDetails.KEY_GOODS_ID, 0);
@@ -54,17 +53,19 @@ public class GoodsDetailsActivity extends AppCompatActivity {
             finish();
         }
         mContext = this;
-        initView();
-        initData();
-        setListener();
+        super.onCreate(savedInstanceState);
+//        initView();
+//        initData();
+//        setListener();
+
+    }
+    @Override
+    protected void setListener() {
 
     }
 
-    private void setListener() {
-
-    }
-
-    private void initData() {
+    @Override
+    protected  void initData() {
         NetDao.downloadGoodsDetail(mContext, goodsID, new OkHttpUtils.OnCompleteListener<GoodsDetailsBean>() {
             @Override
             public void onSuccess(GoodsDetailsBean result) {
@@ -81,7 +82,7 @@ public class GoodsDetailsActivity extends AppCompatActivity {
                 goodsDetailGoodsChiTitleTextView.setText(details.getGoodsName());
                 goodsDetailShopPriceTextView.setText(details.getShopPrice());
                 goodsDetailCuurentPriceTextView.setText(details.getCurrencyPrice());
-                goodsDetailShowGoodsSlideAutoLoopView.startPlayLoop(goodsDetailFlowIndicator,getAlbumImgUrl(goodsDetailsBean),getAlbumImgCount(goodsDetailsBean));
+                goodsDetailShowGoodsSlideAutoLoopView.startPlayLoop(goodsDetailFlowIndicator,getAlbumImgUrl(details),getAlbumImgCount(details));
                 goodsDetailDescriptionWebView.loadDataWithBaseURL(null,details.getGoodsBrief(),I.TEXT_HTML,I.UTF_8,null);
 
             }
@@ -116,9 +117,12 @@ public class GoodsDetailsActivity extends AppCompatActivity {
 
     }
 
-    private void initView() {
+    @Override
+    protected void intiView() {
 
     }
+
+
     @OnClick(R.id.title_back_imageView)
     public void onBackClick(){
         MFGT.finish(this);

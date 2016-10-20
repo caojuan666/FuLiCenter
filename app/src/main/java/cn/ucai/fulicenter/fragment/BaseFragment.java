@@ -12,12 +12,11 @@ import cn.ucai.fulicenter.R;
 
 /**
  * A simple {@link Fragment} subclass.
- */
+// */
+//将通用的代码提取出来继承Frament,并让其他程序拥有initView();
+//initDate();
+//setListener();的方法继承BaseFragment
 public abstract class BaseFragment extends Fragment {
-
-
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -26,11 +25,7 @@ public abstract class BaseFragment extends Fragment {
         setListener();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
-
     protected  abstract void initView() ;
     protected  abstract void initDate();
     protected  abstract void setListener();
-
-
-
 }
