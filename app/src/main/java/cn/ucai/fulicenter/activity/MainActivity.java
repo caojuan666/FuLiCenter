@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.fragment.BoutiqoeFragment;
 import cn.ucai.fulicenter.fragment.CatrgoryFragment;
@@ -87,7 +88,12 @@ public class MainActivity extends AppCompatActivity {
                 index = 2;
                 break;
             case R.id.btnCollect:
-                index = 3;
+                if(FuLiCenterApplication.getUsername()==null){
+                    MFGT.gotoLogin(this);
+                }else{
+
+                    index = 3;
+                }
                 break;
             case R.id.tvshop:
                 index = 4;
