@@ -20,6 +20,7 @@ import butterknife.OnClick;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.adapter.NewGoodAdapter;
+import cn.ucai.fulicenter.bean.CategoryChildBean;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.net.CommonUtils;
 import cn.ucai.fulicenter.net.ConvertUtils;
@@ -27,6 +28,7 @@ import cn.ucai.fulicenter.net.NetDao;
 import cn.ucai.fulicenter.net.OkHttpUtils;
 import cn.ucai.fulicenter.utils.L;
 import cn.ucai.fulicenter.utils.MFGT;
+import cn.ucai.fulicenter.view.CatChildFilterButton;
 import cn.ucai.fulicenter.view.SpaceItemDecoration;
 
 public class CategoryChildActivity extends BaseActivty {
@@ -53,15 +55,20 @@ public class CategoryChildActivity extends BaseActivty {
     Button btnSortPrice;
     @BindView(R.id.btn_sort_addtime)
     Button btnSortAddtime;
-//    jiangxu
-boolean addTimeAsc=false;
-    boolean priceAsc=false;
-//
-    int sortBy=I.SORT_BY_ADDTIME_DESC;
+    //    jiangxu
+    boolean addTimeAsc = false;
+    boolean priceAsc = false;
+    //
+    int sortBy = I.SORT_BY_ADDTIME_DESC;
+    @BindView(R.id.btnCatChildFilter)
+    CatChildFilterButton btnCatChildFilter;
+    String groupName;
+    ArrayList<CategoryChildBean> mChildList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_category_child);
+
         ButterKnife.bind(this);
         mContext = this;
         mList = new ArrayList<>();
@@ -71,6 +78,9 @@ boolean addTimeAsc=false;
         if (catId == 0) {
             finish();
         }
+
+        groupName = getIntent().getStringExtra(I.CategoryGroup.NAME);
+        mChildList = (ArrayList<CategoryChildBean>) getIntent().getSerializableExtra(I.CategoryChild.ID);
         super.onCreate(savedInstanceState);
     }
 
@@ -154,6 +164,7 @@ boolean addTimeAsc=false;
     @Override
     protected void initData() {
         downloadCategoryGoods(I.ACTION_DOWNLOAD);
+        btnCatChildFilter.setOnCatFilterClickListener(groupName,mChildList);
     }
 
     @Override
@@ -174,6 +185,8 @@ boolean addTimeAsc=false;
 //        mList = new ArrayList<>();
         rv.setAdapter(mAdapter);
         rv.addItemDecoration(new SpaceItemDecoration(12));
+//    分类筛选按钮
+        btnCatChildFilter.setTag(groupName);
 //        mAdapter = new NewGoodAdapter(mContext,mList);
     }
 
@@ -190,37 +203,37 @@ boolean addTimeAsc=false;
         Drawable right;//对于箭头当价格升序或降序箭头方向改变
         switch (view.getId()) {
             case R.id.btn_sort_price:
-                if(priceAsc){
-                    sortBy=I.SORT_BY_PRICE_ASC;
+                if (priceAsc) {
+                    sortBy = I.SORT_BY_PRICE_ASC;
                     right = getResources().getDrawable(R.mipmap.arrow_order_up);
 
 
-                }else{
-                    sortBy=I.SORT_BY_PRICE_DESC;
+                } else {
+                    sortBy = I.SORT_BY_PRICE_DESC;
                     right = getResources().getDrawable(R.mipmap.arrow_order_down);
                 }
 //                设置箭头的大小
                 right.setBounds(0, 0, right.getIntrinsicWidth(), right.getIntrinsicHeight());
                 btnSortPrice.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, right, null);
-                priceAsc =!priceAsc;
+                priceAsc = !priceAsc;
                 break;
             case R.id.btn_sort_addtime:
-                if(addTimeAsc){
-                    sortBy=I.SORT_BY_ADDTIME_ASC;
+                if (addTimeAsc) {
+                    sortBy = I.SORT_BY_ADDTIME_ASC;
                     right = getResources().getDrawable(R.mipmap.arrow_order_up);
 
-                }else{
-                    sortBy=I.SORT_BY_ADDTIME_DESC;
+                } else {
+                    sortBy = I.SORT_BY_ADDTIME_DESC;
                     right = getResources().getDrawable(R.mipmap.arrow_order_down);
 
                 }
 //                设置箭头的大小
                 right.setBounds(0, 0, right.getIntrinsicWidth(), right.getIntrinsicHeight());
                 btnSortPrice.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, right, null);
-                addTimeAsc=!addTimeAsc;
+                addTimeAsc = !addTimeAsc;
                 break;
         }
-        L.e("sortby....s"+sortBy);
+        L.e("sortby....s" + sortBy);
 //       自动通知页面去更新
         mAdapter.setSoryBy(sortBy);
     }

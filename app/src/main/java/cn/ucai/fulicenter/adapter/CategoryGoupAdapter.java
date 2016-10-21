@@ -106,7 +106,7 @@ public class CategoryGoupAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View view, ViewGroup parent) {
+    public View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View view, ViewGroup parent) {
         ChildViewHolder holder;
 
         if (view == null) {
@@ -124,7 +124,11 @@ public class CategoryGoupAdapter extends BaseExpandableListAdapter {
             holder.llM.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MFGT.gotoCategoryChildActivity(mContext,child.getId());
+//                    大类的名称和小类的集合
+                   ArrayList<CategoryChildBean> list =  mChildList.get(groupPosition);
+//                    名称
+                    String goupName = mGroupList.get(groupPosition).getName();
+                    MFGT.gotoCategoryChildActivity(mContext,child.getId(),goupName,list);
                 }
             });
 
