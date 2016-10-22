@@ -8,6 +8,8 @@ import cn.ucai.fulicenter.bean.CategoryChildBean;
 import cn.ucai.fulicenter.bean.CategoryGroupBean;
 import cn.ucai.fulicenter.bean.GoodsDetailsBean;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
+import cn.ucai.fulicenter.bean.Result;
+import cn.ucai.fulicenter.utils.MD5;
 
 /**
  * Created by Administrator on 2016/10/17 0017.
@@ -15,7 +17,7 @@ import cn.ucai.fulicenter.bean.NewGoodsBean;
 //请求网络
 public class NetDao {
     public static void downloadNewGoods(Context context, int catId, int pageId, OkHttpUtils.OnCompleteListener<NewGoodsBean[]> listener) {
-        OkHttpUtils<NewGoodsBean[]> utils = new OkHttpUtils(context);
+        OkHttpUtils<NewGoodsBean[]> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_FIND_NEW_BOUTIQUE_GOODS)
                 .addParam(I.NewAndBoutiqueGoods.CAT_ID, String.valueOf(catId))
                 .addParam(I.PAGE_ID, String.valueOf(pageId))
@@ -26,7 +28,7 @@ public class NetDao {
     }
 
     public static void downloadGoodsDetail(Context context, int goodsId, OkHttpUtils.OnCompleteListener<GoodsDetailsBean> listener) {
-        OkHttpUtils utils = new OkHttpUtils(context);
+        OkHttpUtils <GoodsDetailsBean>utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_FIND_GOOD_DETAILS)
                 .addParam(I.GoodsDetails.KEY_GOODS_ID, String.valueOf(goodsId))
                 .targetClass(GoodsDetailsBean.class)
@@ -34,7 +36,7 @@ public class NetDao {
     }
 
     public static void downloadBoutique(Context context, OkHttpUtils.OnCompleteListener<BoutiqueBean[]> listener) {
-        OkHttpUtils utils = new OkHttpUtils(context);
+        OkHttpUtils utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_FIND_BOUTIQUES)
                 .targetClass(BoutiqueBean[].class)
                 .execute(listener);
@@ -42,7 +44,7 @@ public class NetDao {
     }
 
     public static void downloadCatrgoryGroup(Context context, OkHttpUtils.OnCompleteListener<CategoryGroupBean[]> listener) {
-        OkHttpUtils utils = new OkHttpUtils(context);
+        OkHttpUtils <CategoryGroupBean[]>utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_FIND_CATEGORY_GROUP)
                 .targetClass(CategoryGroupBean[].class)
                 .execute(listener);
@@ -50,7 +52,7 @@ public class NetDao {
     }
 
     public static void downloadCatrgoryChild(Context context, int id, OkHttpUtils.OnCompleteListener<CategoryChildBean[]> listener) {
-        OkHttpUtils utils = new OkHttpUtils(context);
+        OkHttpUtils <CategoryChildBean[]>utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_FIND_CATEGORY_CHILDREN)
                 .addParam(I.CategoryChild.PARENT_ID, String.valueOf(id))
                 .targetClass(CategoryChildBean[].class)
@@ -68,4 +70,20 @@ public class NetDao {
                 .execute(listener);
 
     }
+//    网络请求数据之后调用放法--》registter
+    public static  void register(Context context, String username, String nickName, String password ,OkHttpUtils.OnCompleteListener<Result> listener){
+        OkHttpUtils<Result> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_REGISTER)
+                .addParam(I.User.USER_NAME,username)
+                .addParam(I.User.NICK,nickName)
+//                密码加密
+
+                .addParam(I.User.PASSWORD, MD5.getMessageDigest(password))
+                .targetClass(Result.class)
+                .post()
+                .execute(listener);
+
+
+    }
+
 }
