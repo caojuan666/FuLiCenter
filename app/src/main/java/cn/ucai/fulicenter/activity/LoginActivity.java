@@ -1,5 +1,6 @@
 package cn.ucai.fulicenter.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,15 +9,16 @@ import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.utils.MFGT;
 
 public class LoginActivity extends BaseActivty {
 
+    @BindView(R.id.tv_user)
+    EditText tv_user;
     @BindView(R.id.tv_userPassword)
-    EditText tvUserPassword;
-    @BindView(R.id.tv_NickName)
-    EditText tvNickName;
+    EditText tv_userPassword;
     @BindView(R.id.btn_loign)
     Button btnLoign;
     @BindView(R.id.btn_resign)
@@ -52,6 +54,16 @@ public class LoginActivity extends BaseActivty {
             case R.id.btn_resign:
                 MFGT.gotoRegsiter(this);
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK&&requestCode== I.REQUEST_CODE_REGISTER){
+            String name = data.getStringExtra(I.User.USER_NAME);
+            tv_user.setText(name);
+
         }
     }
 }

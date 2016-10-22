@@ -1,6 +1,7 @@
 package cn.ucai.fulicenter.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.TextView;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.net.CommonUtils;
@@ -96,6 +98,7 @@ public class RegsiterActivity extends BaseActivty {
 //        验证之后取调用注册方法
     register();
 
+
     }
 //实现注册需要信息
     private void register() {
@@ -114,6 +117,7 @@ public class RegsiterActivity extends BaseActivty {
                 }else {
                     if(result.isRetMsg()){
                         CommonUtils.showLongToast(R.string.register_success);
+                        setResult(RESULT_OK, new Intent().putExtra(I.User.USER_NAME, username));
                         MFGT.finish(mContext);
 //                        若注册失败了
                     }else {
