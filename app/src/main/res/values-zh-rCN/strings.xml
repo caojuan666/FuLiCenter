@@ -9,4 +9,8 @@
     <string name="goods_detail_top">商品详情</string>
     <string name="goods_des_detail">PP食品级材质，轻巧、易清洗、蠕变性小，不易变形，
         可置于微波炉加热，可方巾洗碗机清洗。双层色彩可以随意组合，轻巧方便。</string>
+    <string name="login_fail">登录失败</string>
+    <string name="logining">登录中</string>
+    <string name="login_fail_unknow_user">不知道</string>
+    <string name="login_fail_error_password">登录失败用户和密码</string>
 </resources>
