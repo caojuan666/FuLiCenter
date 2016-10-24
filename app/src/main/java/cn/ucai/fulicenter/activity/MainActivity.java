@@ -16,6 +16,7 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.fragment.BoutiqoeFragment;
 import cn.ucai.fulicenter.fragment.CatrgoryFragment;
 import cn.ucai.fulicenter.fragment.NewGoodsFragment;
+import cn.ucai.fulicenter.fragment.PersonCenterFragment;
 import cn.ucai.fulicenter.utils.L;
 import cn.ucai.fulicenter.utils.MFGT;
 
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     NewGoodsFragment mNewGoodsFragment;
     BoutiqoeFragment mBoutiqoeFragment;
     CatrgoryFragment mCatrgoryFragment;
+    PersonCenterFragment mPersonCenterFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +57,11 @@ public class MainActivity extends AppCompatActivity {
         mNewGoodsFragment = new NewGoodsFragment();
         mBoutiqoeFragment = new BoutiqoeFragment();
         mCatrgoryFragment = new CatrgoryFragment();
+        mPersonCenterFragment = new PersonCenterFragment();
         mFragments[0] = mNewGoodsFragment;
         mFragments[1]=mBoutiqoeFragment;
         mFragments[2] = mCatrgoryFragment;
+        mFragments[3] = mPersonCenterFragment;
         getSupportFragmentManager()
                 .beginTransaction()
                .add(R.id.fl, mNewGoodsFragment)
@@ -88,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 index = 2;
                 break;
             case R.id.btnCollect:
-                if(FuLiCenterApplication.getUsername()==null){
+                if(FuLiCenterApplication.getUser()==null){
                     MFGT.gotoLogin(this);
                 }else{
 
@@ -110,9 +114,10 @@ public class MainActivity extends AppCompatActivity {
                     ft.add(R.id.fl,mFragments[index]);
                 }
             ft.show(mFragments[index]).commit();
-            setRadioButtonStatus();
-            currentIndex = index;
+
         }
+        setRadioButtonStatus();
+        currentIndex = index;
     }
     private void setRadioButtonStatus() {
         for(int i=0;i<ra.length;i++){

@@ -38,8 +38,9 @@ public class DBManager {
         values.put(UserDao.USER_COLUMN_NAME,user.getMuserName());
         values.put(UserDao.USER_COLUMN_NICK,user.getMuserNick());
         values.put(UserDao.USER_COLUMN_AVATAR_ID, user.getMavatarId());
-        values.put(UserDao.USER_COLUMN_AVATAR_TYPE,user.getMavatarType());
+        values.put(UserDao.USER_COLUMN_AVATAR_PATH,user.getMavatarPath());
         values.put(UserDao.USER_COLUMN_AVATAR_SUFFIX,user.getMavatarSuffix());
+        values.put(UserDao.USER_COLUMN_AVATAR_TYPE,user.getMavatarType());
         values.put(UserDao.USER_COLUMN_AVATAR_LASTUPDATE_TIME,user.getMavatarLastUpdateTime());
         if(db.isOpen()){
             return db.replace(UserDao.USER_TABLE_NAME,null,values)!=-1;
@@ -50,7 +51,7 @@ public class DBManager {
     public  synchronized User getUser(String username){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String sql = "select * from " + UserDao.USER_TABLE_NAME +" where "
-                +UserDao.USER_COLUMN_NAME +" =?";
+                +UserDao.USER_COLUMN_NAME + " =?";
         User user = null;
         Cursor cursor = db.rawQuery(sql, new String[]{username});
         if(cursor.moveToNext()){
