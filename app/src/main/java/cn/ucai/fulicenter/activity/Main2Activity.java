@@ -20,8 +20,8 @@ public class Main2Activity extends BaseActivty {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main2);
-        super.onCreate(savedInstanceState);
         mContext = this;
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class Main2Activity extends BaseActivty {
 
 //                startActivity(new Intent(Main2Activity.this,MainActivity.class));
                 MFGT.gotoMainActivity(Main2Activity.this);
-
+                finish();
 
 
 

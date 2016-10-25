@@ -81,11 +81,13 @@ public class UserChildActivity extends BaseActivty {
                 break;
         }
     }
-
+//进入个人中心之后点击退出按钮
     private void logout() {
         if(user!=null){
             SharePrefrenceUtils.getInstance(mContext).removeUser();
+//
             FuLiCenterApplication.setUser(null);
+//            跳转登录
             MFGT.gotoLogin(mContext);
 
         }

@@ -31,6 +31,7 @@ public class PersonCenterFragment extends BaseFragment {
     @BindView(R.id.tv_user_name)
     TextView tvUserName;
     MainActivity mContext;
+    User user =null;
 
     @Nullable
     @Override
@@ -52,7 +53,7 @@ public class PersonCenterFragment extends BaseFragment {
 
     @Override
     protected void initDate() {
-        User user = FuLiCenterApplication.getUser();
+    user = FuLiCenterApplication.getUser();
         L.e(TAG,"user="+user);
 //        若用户为空
         if(user==null){
@@ -71,8 +72,22 @@ public class PersonCenterFragment extends BaseFragment {
 
     }
 
-    @OnClick(R.id.tv_center_settings)
-    public void onClick() {
+    @Override
+    public void onResume() {
+        super.onResume();
+        user = FuLiCenterApplication.getUser();
+        L.e(TAG, "user=" + user);
+//        若用户为空
+        if (user != null){
+            ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user), mContext, ivUserAvatar);
+        tvUserName.setText(user.getMuserNick());
+    }
+
+    }
+//d点击进入个人中心
+    @OnClick({R.id.tv_center_settings,R.id.center_user_info})
+    public void gotoSetting() {
+        MFGT.gotoSetting(mContext);
     }
 }
 

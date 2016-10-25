@@ -1,6 +1,7 @@
 package cn.ucai.fulicenter.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ucai.fulicenter.FuLiCenterApplication;
+import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.fragment.BoutiqoeFragment;
 import cn.ucai.fulicenter.fragment.CatrgoryFragment;
@@ -23,6 +25,7 @@ import cn.ucai.fulicenter.utils.MFGT;
 import static android.R.attr.id;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = MainActivity.class.getSimpleName();
     int index;
     int currentIndex;
     RadioButton[] ra ;
@@ -95,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
                 if(FuLiCenterApplication.getUser()==null){
                     MFGT.gotoLogin(this);
                 }else{
-
                     index = 3;
                 }
                 break;
@@ -104,20 +106,23 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         setFragment();
-
     }
     private void setFragment() {
+        L.e(TAG, "index:" + index);
         if(index!=currentIndex) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.hide(mFragments[currentIndex]);
                 if(!mFragments[index].isAdded()){
                     ft.add(R.id.fl,mFragments[index]);
                 }
+//            解放
             ft.show(mFragments[index]).commit();
+//            ft.show(mFragments[index]).commitAllowingStateLoss();
 
         }
         setRadioButtonStatus();
         currentIndex = index;
+
     }
     private void setRadioButtonStatus() {
         for(int i=0;i<ra.length;i++){
@@ -130,5 +135,35 @@ public class MainActivity extends AppCompatActivity {
     }
     public void onBackPressed(){
         finish();
+    }
+
+//    解放1
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if(FuLiCenterApplication.getUser()!=null)
+//        {
+//            index = 3;
+//        }
+//        setFragment();
+//    }
+//    关闭1
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(index==3&&FuLiCenterApplication.getUser()==null)
+        {
+            index = 0;
+        }
+        setFragment();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+       super .onActivityResult(requestCode,resultCode,data);
+        if(requestCode== I.REQUEST_CODE_LOGIN&&FuLiCenterApplication.getUser()!=null){
+            index = 3;
+        }
+
     }
 }

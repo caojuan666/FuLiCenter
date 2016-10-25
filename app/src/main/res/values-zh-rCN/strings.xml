@@ -13,4 +13,7 @@
     <string name="logining">登录中</string>
     <string name="login_fail_unknow_user">不知道</string>
     <string name="login_fail_error_password">登录失败用户和密码</string>
+    <string name="user_database_error">用户数据操作异常</string>
+    <string name="user_profile">个人资料</string>
+    <string name="update_user_nick">更新用户昵称</string>
 </resources>
