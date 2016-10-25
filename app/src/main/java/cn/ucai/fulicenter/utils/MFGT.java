@@ -14,6 +14,7 @@ import cn.ucai.fulicenter.activity.GoodsDetailsActivity;
 import cn.ucai.fulicenter.activity.LoginActivity;
 import cn.ucai.fulicenter.activity.MainActivity;
 import cn.ucai.fulicenter.activity.RegsiterActivity;
+import cn.ucai.fulicenter.activity.UserChildActivity;
 import cn.ucai.fulicenter.bean.CategoryChildBean;
 
 
@@ -61,14 +62,18 @@ public class MFGT {
         startActivity(context, intent);
     }
 
+    //    解放1
+//    public static void gotoLogin(Activity context) {
+//        startActivity(context, LoginActivity.class);
+//    }
+//    关闭2
     public static void gotoLogin(Activity context) {
-        startActivity(context, LoginActivity.class);
+        Intent intent = new Intent();
+        intent.setClass(context, LoginActivity.class);
+        startActivityForResult(context, intent, I.REQUEST_CODE_LOGIN);
     }
 
-    //    public static void gotoRegsiter(Activity context){
-//        startActivity(context, RegsiterActivity.class);
-//    }
-//    注册请求用户名
+    //    注册请求用户名
     public static void gotoRegsiter(Activity context) {
         Intent intent = new Intent();
         intent.setClass(context, RegsiterActivity.class);
@@ -76,7 +81,8 @@ public class MFGT {
 
 
     }
-    public static void startActivityForResult(Activity context,  Intent intent,int requestCode) {
+
+    public static void startActivityForResult(Activity context, Intent intent, int requestCode) {
 
         context.startActivityForResult(intent, requestCode);
 //        startActivity(context,RegsiterActivity.class);
@@ -84,4 +90,8 @@ public class MFGT {
 
 
     }
+//    跳转
+    public static  void  gotoSetting(Activity context){
+        startActivity(context, UserChildActivity.class);
     }
+}

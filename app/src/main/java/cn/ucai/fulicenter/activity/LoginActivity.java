@@ -25,6 +25,7 @@ import cn.ucai.fulicenter.net.OkHttpUtils;
 import cn.ucai.fulicenter.utils.L;
 import cn.ucai.fulicenter.utils.MFGT;
 import cn.ucai.fulicenter.utils.ResultUtils;
+import cn.ucai.fulicenter.view.DisplayUtils;
 
 public class LoginActivity extends BaseActivty {
     private static  final String TAG = LoginActivity.class.getSimpleName();
@@ -61,6 +62,7 @@ public class LoginActivity extends BaseActivty {
 
     @Override
     protected void intiView() {
+//        DisplayUtils.initBackWithTitle(mContext, getResources().getString(R.string.login));
 
     }
 
@@ -88,9 +90,7 @@ public class LoginActivity extends BaseActivty {
             return;
         }
         login();
-
     }
-
     private void login() {
         final ProgressDialog pd = new ProgressDialog(mContext);
         pd.setMessage(getResources().getString(R.string.logining));
@@ -102,7 +102,6 @@ public class LoginActivity extends BaseActivty {
                 pd.dismiss();
                 L.e(TAG,"json="+json);
                 Result result = ResultUtils.getResultFromJson(json, User.class);
-
 //                TAG
                 if(result==null){
                     CommonUtils.showLongToast(R.string.login_fail);
@@ -120,8 +119,6 @@ public class LoginActivity extends BaseActivty {
                         }else{
                             CommonUtils.showLongToast(R.string.user_database_error);
                         }
-
-
                     }else {
                         if(result.getRetCode()==I.MSG_LOGIN_UNKNOW_USER){
                             CommonUtils.showLongToast(R.string.login_fail_unknow_user);
@@ -135,16 +132,12 @@ public class LoginActivity extends BaseActivty {
                 }
 
             }
-
             @Override
             public void onError(String error) {
                 CommonUtils.showLongToast(error);
 
             }
         });
-
-
-
 
     }
 
