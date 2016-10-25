@@ -116,8 +116,8 @@ public class MainActivity extends AppCompatActivity {
                     ft.add(R.id.fl,mFragments[index]);
                 }
 //            解放
-            ft.show(mFragments[index]).commit();
-//            ft.show(mFragments[index]).commitAllowingStateLoss();
+//            ft.show(mFragments[index]).commit();
+            ft.show(mFragments[index]).commitAllowingStateLoss();
 
         }
         setRadioButtonStatus();
