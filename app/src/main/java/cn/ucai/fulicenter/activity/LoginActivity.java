@@ -129,13 +129,14 @@ public class LoginActivity extends BaseActivty {
 
                         }
                     }
+                    pd.dismiss();
                 }
 
             }
             @Override
             public void onError(String error) {
                 CommonUtils.showLongToast(error);
-
+                pd.dismiss();
             }
         });
 

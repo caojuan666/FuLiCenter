@@ -57,12 +57,12 @@ public class UpdateNickActivity extends BaseActivty {
 
     @Override
     protected void intiView() {
-        DisplayUtils.initBackWithTitle(mContext, getResources().getString(R.string.update_user_nick));
+//        DisplayUtils.initBackWithTitle(mContext, getResources().getString(R.string.update_user_nick));
 
     }
 
     @OnClick(R.id.button)
-    public void chaeckNick() {
+    public void checkNick() {
         if(user!=null){
             String nick = etUpdateUserName.getText().toString().trim();
             if(nick.equals(user.getMuserNick())){
@@ -99,7 +99,6 @@ public class UpdateNickActivity extends BaseActivty {
                             SharePrefrenceUtils.getInstance(mContext).saveUsser(user.getMuserName());
 
                             FuLiCenterApplication.setUser(u);
-                            setResult(RESULT_OK);
                             MFGT.finish(mContext);
                         }else{
 //                            失败

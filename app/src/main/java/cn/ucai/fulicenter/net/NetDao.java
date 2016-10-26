@@ -2,6 +2,8 @@ package cn.ucai.fulicenter.net;
 
 import android.content.Context;
 
+import java.io.File;
+
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.bean.BoutiqueBean;
 import cn.ucai.fulicenter.bean.CategoryChildBean;
@@ -91,7 +93,8 @@ public class NetDao {
         utils.setRequestUrl(I.REQUEST_LOGIN)
                 .addParam(I.User.USER_NAME,username)
                 .addParam(I.User.PASSWORD,MD5.getMessageDigest(password))
-                .targetClass(String.class);
+                .targetClass(String.class)
+                .execute(listener);
 
     }
     public static void updateNick(Context context, String username, String nick, OkHttpUtils.OnCompleteListener<String> listener){
@@ -102,7 +105,18 @@ public class NetDao {
                 .targetClass(String.class)
                 .execute(listener);
 
+    }
+    public static void updateAvatar(Context context, String username, File file, OkHttpUtils.OnCompleteListener<String> listener){
+        OkHttpUtils<String> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_UPDATE_AVATAR)
+                .addParam(I.NAME_OR_HXID,username)
+                .addFile2(file)
+                .addParam(I.AVATAR_TYPE,I.AVATAR_TYPE_USER_PATH )
+                .targetClass(String.class)
+                .post()
+                .execute(listener);
 
     }
+
 
 }
