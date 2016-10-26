@@ -8,6 +8,7 @@ import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.bean.BoutiqueBean;
 import cn.ucai.fulicenter.bean.CategoryChildBean;
 import cn.ucai.fulicenter.bean.CategoryGroupBean;
+import cn.ucai.fulicenter.bean.CollectBean;
 import cn.ucai.fulicenter.bean.GoodsDetailsBean;
 import cn.ucai.fulicenter.bean.MessageBean;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
@@ -133,6 +134,40 @@ public class NetDao {
                 .execute(listener);
 
     }
+    public static void downloadCollects(Context context, String username, int pagId, OkHttpUtils.OnCompleteListener<CollectBean[]> listener){
+        OkHttpUtils<CollectBean[]> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_COLLECTS)
+                .addParam(I.Collect.USER_NAME,username)
+                .addParam(I.PAGE_ID,String.valueOf(pagId))
+                .addParam(I.PAGE_SIZE,String.valueOf(I.PAGE_SIZE_DEFAULT))
+                .targetClass(CollectBean[].class)
+                .execute(listener);
+    }
+    public static void deleteCollects(Context context, String username, int goodId, OkHttpUtils.OnCompleteListener<MessageBean> listener){
+        OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_DELETE_COLLECT)
+                .addParam(I.Collect.USER_NAME,username)
+                .addParam(I.Collect.GOODS_ID,String.valueOf(goodId))
+                .targetClass(MessageBean.class)
+                .execute(listener);
+    }
+    public static void isCollects(Context context, String username, int goodId, OkHttpUtils.OnCompleteListener<MessageBean> listener){
+        OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_IS_COLLECT)
+                .addParam(I.Collect.USER_NAME,username)
+                .addParam(I.Collect.GOODS_ID,String.valueOf(goodId))
+                .targetClass(MessageBean.class)
+                .execute(listener);
+    }
+    public static void addCollects(Context context, String username, int goodId, OkHttpUtils.OnCompleteListener<MessageBean> listener){
+        OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_ADD_COLLECT)
+                .addParam(I.Collect.USER_NAME,username)
+                .addParam(I.Collect.GOODS_ID,String.valueOf(goodId))
+                .targetClass(MessageBean.class)
+                .execute(listener);
+    }
+
 
 
 }

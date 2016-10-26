@@ -51,6 +51,9 @@ public class NewGoodsFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_new_goods, container, false);
         ButterKnife.bind(this, layout);
+        mContext= (MainActivity) getContext();
+        mList = new ArrayList<>();
+        mAdapter = new NewGoodAdapter(mContext,mList);
         super.onCreateView(inflater, container, savedInstanceState);
 //        initView();
 //        initDate();

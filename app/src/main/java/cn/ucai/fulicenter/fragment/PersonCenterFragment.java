@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -40,6 +41,8 @@ public class PersonCenterFragment extends BaseFragment {
     User user = null;
     @BindView(R.id.tv_collect_count)
     TextView tvCollectCount;
+    @BindView(R.id.layout_center_collect)
+    LinearLayout layoutCenterCollect;
 
     @Nullable
     @Override
@@ -51,13 +54,10 @@ public class PersonCenterFragment extends BaseFragment {
         return layout;
     }
 
-
     @Override
     protected void initView() {
 
-
     }
-
 
     @Override
     protected void initDate() {
@@ -134,7 +134,7 @@ public class PersonCenterFragment extends BaseFragment {
             public void onSuccess(MessageBean result) {
                 if (result != null && result.isSuccess()) {
                     tvCollectCount.setText(result.getMsg());
-                }else {
+                } else {
                     tvCollectCount.setText(String.valueOf(0));
                 }
             }
@@ -142,9 +142,14 @@ public class PersonCenterFragment extends BaseFragment {
             @Override
             public void onError(String error) {
                 tvCollectCount.setText(String.valueOf(0));
-                L.e(TAG,"error="+error);
+                L.e(TAG, "error=" + error);
             }
         });
+    }
+
+    @OnClick(R.id.layout_center_collect)
+    public void gotoCollectsList() {
+        MFGT.gotoCollects(mContext);
     }
 }
 
