@@ -37,4 +37,5 @@ public class MessageBean {
                 ", msg='" + msg + '\'' +
                 '}';
     }
+
 }
