@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.CartBean;
@@ -33,7 +34,6 @@ public class CartBeanAdapter extends RecyclerView.Adapter {
         mContext = context;
         mList = list;
     }
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder holder = null;
@@ -61,6 +61,7 @@ public class CartBeanAdapter extends RecyclerView.Adapter {
                     mContext.sendBroadcast(new Intent(I.BROADCAST_UPDATE_CATR));
                 }
             });
+            ((CartViewHolder) holder).ivAddCount.setTag(position);
         }
     }
 
@@ -117,6 +118,13 @@ public class CartBeanAdapter extends RecyclerView.Adapter {
             super(view);
             ButterKnife.bind(this, view);
         }
+            @OnClick(R.id.iv_add_Count)
+             public   void addCart(){
+            int position = (int) ivAddCount.getTag();
+                mList.get(position).setCount(mList.get(position).getCount()+1);
+                mContext.sendBroadcast(new Intent(I.BROADCAST_UPDATE_CATR));
+                tvGoodsCounts.setText(String.valueOf(mList.get(position).getCount()));
 
+            }
     }
 }
