@@ -10,12 +10,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
@@ -24,11 +26,13 @@ import cn.ucai.fulicenter.adapter.CartBeanAdapter;
 import cn.ucai.fulicenter.bean.CartBean;
 import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.net.CommonUtils;
-import cn.ucai.fulicenter.net.ConvertUtils;
 import cn.ucai.fulicenter.net.NetDao;
 import cn.ucai.fulicenter.net.OkHttpUtils;
 import cn.ucai.fulicenter.utils.L;
+import cn.ucai.fulicenter.utils.ResultUtils;
 import cn.ucai.fulicenter.view.SpaceItemDecoration;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,6 +50,15 @@ public class CartFragment extends BaseFragment {
     MainActivity mContext;
     CartBeanAdapter mAdapter;
     ArrayList<CartBean> mList;
+//
+    @BindView(R.id.tv_cart_sum_price)
+    TextView tvCartSumPrice;
+    @BindView(R.id.tv_save_price)
+    TextView tvSavePrice;
+    @BindView(R.id.layout_cart)
+    RelativeLayout layoutCart;
+    @BindView(R.id.tv_nothing)
+    TextView tvNothing;
 
     public CartFragment() {
 
@@ -55,8 +68,7 @@ public class CartFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View layout = inflater.inflate(R.layout.fragment_new_goods, container, false);
+        View layout = inflater.inflate(R.layout.fragment_cart, container, false);
         ButterKnife.bind(this, layout);
         mContext = (MainActivity) getContext();
         mList = new ArrayList<>();
@@ -91,40 +103,36 @@ public class CartFragment extends BaseFragment {
 
     private void downloadCart(final int action) {
         User user = FuLiCenterApplication.getUser();
-        if(user!=null){
-            NetDao.downloadCart(mContext,user.getMuserName(), new OkHttpUtils.OnCompleteListener<CartBean[]>() {
+        if (user != null) {
+            NetDao.downloadCart(mContext, user.getMuserName(), new OkHttpUtils.OnCompleteListener<String>() {
                 @Override
-                public void onSuccess(CartBean[] result) {
-                    Log.i("main:", "r="+result);
+                public void onSuccess(String s) {
+                    ArrayList<CartBean> list = ResultUtils.getCartFromJson(s);
+                    Log.i("main:", "r=" + list);
                     srl.setRefreshing(false);
                     tvRefresh.setVisibility(View.GONE);
-//
-                    if(result!=null&&result.length>0){
-                        ArrayList<CartBean> list = ConvertUtils.array2List(result);
-                        Log.i("main:", "s="+list.size());
-                        if(action==I.ACTION_DOWNLOAD||action==I.ACTION_PULL_DOWN){
-                            mAdapter.initData(list);
-                        }else{
-                            mAdapter.addDate(list);
-                        }
-                        if(list.size()<I.PAGE_ID_DEFAULT){
-                            mAdapter.setMore(false);
-                        }else {
-                            mAdapter.setMore(true);
-                        }
+
+                    if (list != null && list.size() > 0) {
+                        Log.i(TAG, "s=" + list.get(0));
+                        mAdapter.initData(list);
+//                        當有商品時“空空”被隱藏，否則顯示
+                        setCartLayout(true);
+                    }else {
+                        setCartLayout(false);
                     }
                 }
+
                 @Override
                 public void onError(String error) {
+                    setCartLayout(false);
 //                添加工具
+                    srl.setRefreshing(false);
+                    tvRefresh.setVisibility(View.GONE);
                     CommonUtils.showShortToast(error);
-
-                    L.e("error"+error);
-
+                    L.e("error" + error);
                 }
             });
         }
-
     }
 
     @Override
@@ -144,7 +152,15 @@ public class CartFragment extends BaseFragment {
         mList = new ArrayList<>();
         rv.setAdapter(mAdapter);
         rv.addItemDecoration(new SpaceItemDecoration(12));
+        setCartLayout(false);
+    }
+//    顯示購物車中的數據
+    private void setCartLayout(boolean hasCart) {
+        layoutCart.setVisibility(hasCart?View.VISIBLE:View.GONE);
+        tvNothing.setVisibility(hasCart?View.GONE:View.VISIBLE);
+    }
 
-
+    @OnClick(R.id.tv_cart_buy)
+    public void onClick() {
     }
 }
