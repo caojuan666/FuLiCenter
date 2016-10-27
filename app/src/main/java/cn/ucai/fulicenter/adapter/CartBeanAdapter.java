@@ -15,6 +15,8 @@ import butterknife.ButterKnife;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.CartBean;
+import cn.ucai.fulicenter.bean.GoodsDetailsBean;
+import cn.ucai.fulicenter.utils.ImageLoader;
 import cn.ucai.fulicenter.view.FooterViewHolder;
 
 
@@ -28,51 +30,41 @@ public class CartBeanAdapter extends RecyclerView.Adapter {
         mContext = context;
         mList = new ArrayList<>();
         mList.addAll(list);
-
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder holder = null;
-        if (viewType == I.TYPE_FOOTER) {
-            holder = new FooterViewHolder(LayoutInflater.from(mContext)
-                    .inflate(R.layout.item_footer, parent, false));
-        } else {
             holder = new CartViewHolder(LayoutInflater.from(mContext)
                     .inflate(R.layout.item_cart, parent, false));
-        }
         return holder;
     }
-
     //
     @Override
+
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof FooterViewHolder) {
-            ((FooterViewHolder) holder).tvfooter.setText(getFoooterString());
-        }
-        if (holder instanceof CartViewHolder) {
-            CartBean cartBean = mList.get(position);
-//            ImageLoader.downloadImg(mContext,((BoutiqueViewHolder) holder).ivBoutiqueImg,boutiqueBean.getImageurl());
-//            ((BoutiqueViewHolder) holder).tvBoutiTitle.setText(boutiqueBean.getTitle());
-//            ((BoutiqueViewHolder) holder).tvName.setText(boutiqueBean.getName());
-//            ((BoutiqueViewHolder) holder).tvInformation.setText(boutiqueBean.getDescription());
-//            ((BoutiqueViewHolder) holder).layoutBoutiqueItem.setTag(boutiqueBean.getId());
-//            L.e("catId:"+boutiqueBean.getId());
+        CartViewHolder c = (CartViewHolder) holder;
+        CartBean cartBean = mList.get(position);
+        GoodsDetailsBean goods = cartBean.getGoods();
+        if (goods!=null) {
+            ImageLoader.downloadImg(mContext,((CartViewHolder) holder).ivGoods,goods.getGoodsThumb());
+            ((CartViewHolder) holder).tvGoodsName.setText(goods.getGoodsName());
+            ((CartViewHolder) holder).tvGoodsPrice.setText(goods.getCurrencyPrice());
         }
     }
 
     @Override
     public int getItemCount() {
-        return mList != null ? mList.hashCode() + 1 : 1;
+        return mList != null ? mList.size()  : 0;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == getItemCount() - 1) {
+        /*if (position == getItemCount() - 1) {
             return I.TYPE_FOOTER;
-        } else {
+        } else {*/
             return I.TYPE_ITEM;
-        }
+        //}
     }
 
     public int getFoooterString() {

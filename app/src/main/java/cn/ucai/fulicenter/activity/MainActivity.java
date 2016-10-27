@@ -16,6 +16,7 @@ import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.fragment.BoutiqoeFragment;
+import cn.ucai.fulicenter.fragment.CartFragment;
 import cn.ucai.fulicenter.fragment.CatrgoryFragment;
 import cn.ucai.fulicenter.fragment.NewGoodsFragment;
 import cn.ucai.fulicenter.fragment.PersonCenterFragment;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     BoutiqoeFragment mBoutiqoeFragment;
     CatrgoryFragment mCatrgoryFragment;
     PersonCenterFragment mPersonCenterFragment;
+   CartFragment mCartFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,17 +63,20 @@ public class MainActivity extends AppCompatActivity {
         mBoutiqoeFragment = new BoutiqoeFragment();
         mCatrgoryFragment = new CatrgoryFragment();
         mPersonCenterFragment = new PersonCenterFragment();
+        mCartFragment = new CartFragment();
         mFragments[0] = mNewGoodsFragment;
         mFragments[1]=mBoutiqoeFragment;
         mFragments[2] = mCatrgoryFragment;
         mFragments[3] = mPersonCenterFragment;
+        mFragments[4] = mCartFragment;
+
         getSupportFragmentManager()
                 .beginTransaction()
-               .add(R.id.fl, mNewGoodsFragment)
-                .add(R.id.fl,mBoutiqoeFragment)
-                .add(R.id.fl,mCatrgoryFragment)
-                .hide(mBoutiqoeFragment)
-                .hide(mCatrgoryFragment)
+//               .add(R.id.fl, mNewGoodsFragment)
+//                .add(R.id.fl,mBoutiqoeFragment)
+//                .add(R.id.fl,mCatrgoryFragment)
+//                .hide(mBoutiqoeFragment)
+//                .hide(mCatrgoryFragment)
                 .show(mNewGoodsFragment)
                 .commit();
     }
@@ -96,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.btnCollect:
                 if(FuLiCenterApplication.getUser()==null){
-                    MFGT.gotoLogin(this);
+                    MFGT.gotoLoginFromCart(this);
                 }else{
                     index = 3;
                 }
@@ -161,8 +166,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
        super .onActivityResult(requestCode,resultCode,data);
-        if(requestCode== I.REQUEST_CODE_LOGIN&&FuLiCenterApplication.getUser()!=null){
+        if(FuLiCenterApplication.getUser()!=null){
             index = 3;
+        }
+        if(requestCode== I.REQUEST_CODE_LOGIN_FROM_CART){
+            index = 4;
         }
 
     }

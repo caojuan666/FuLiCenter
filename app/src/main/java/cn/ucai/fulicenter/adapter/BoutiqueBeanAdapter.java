@@ -27,7 +27,7 @@ import cn.ucai.fulicenter.view.FooterViewHolder;
 public class BoutiqueBeanAdapter extends RecyclerView.Adapter {
     Context mContext;
     ArrayList<BoutiqueBean> mList;
-    private int foooterString;
+    private int footerString;
     boolean isMore;
     public BoutiqueBeanAdapter(Context context, ArrayList<BoutiqueBean> list) {
        mContext = context;
@@ -39,21 +39,22 @@ public class BoutiqueBeanAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder holder = null;
-        if (viewType == I.TYPE_FOOTER) {
+        /*if (viewType == I.TYPE_FOOTER) {
             holder = new FooterViewHolder(LayoutInflater.from(mContext)
                     .inflate(R.layout.item_footer, parent, false));
-        } else {
+        } else {*/
             holder = new BoutiqueViewHolder(LayoutInflater.from(mContext)
                     .inflate(R.layout.item_boutique, parent, false));
-        }
+        //}
         return holder;
     }
 //
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof FooterViewHolder) {
-            ((FooterViewHolder) holder).tvfooter.setText(getFoooterString());
-        }if(holder instanceof BoutiqueViewHolder){
+        /*if (holder instanceof FooterViewHolder) {
+            ((FooterViewHolder) holder).tvfooter.setText(getFooterString());
+            return;
+        }if(holder instanceof BoutiqueViewHolder){*/
             BoutiqueBean boutiqueBean = mList.get(position);
             ImageLoader.downloadImg(mContext,((BoutiqueViewHolder) holder).ivBoutiqueImg,boutiqueBean.getImageurl());
             ((BoutiqueViewHolder) holder).tvBoutiTitle.setText(boutiqueBean.getTitle());
@@ -61,24 +62,24 @@ public class BoutiqueBeanAdapter extends RecyclerView.Adapter {
             ((BoutiqueViewHolder) holder).tvInformation.setText(boutiqueBean.getDescription());
             ((BoutiqueViewHolder) holder).layoutBoutiqueItem.setTag(boutiqueBean.getId());
             L.e("catId:"+boutiqueBean.getId());
-        }
+       // }
     }
 
     @Override
     public int getItemCount() {
-        return mList != null ? mList.hashCode() + 1 : 1;
+        return mList != null ? mList.size() : 0;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == getItemCount() - 1) {
+        /*if (position == getItemCount() - 1) {
             return I.TYPE_FOOTER;
-        } else {
+        } else {*/
             return I.TYPE_ITEM;
-        }
+       // }
     }
 
-    public int getFoooterString() {
+    public int getFooterString() {
         return isMore?R.string.load_more:R.string.no_more;
     }
 
