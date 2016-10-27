@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/orange"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_cart_sum_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="17dp"
+        android:layout_marginTop="14dp"
+        android:layout_toStartOf="@+id/tv_cart_buy"
+        android:text="合计:10"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_save_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/tv_cart_sum_price"
+        android:layout_below="@+id/tv_cart_buy"
+        android:text="节省:2"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/tv_cart_buy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/tv_cart_sum_price"
+        android:text="结算:10"
+        android:textSize="25sp" />
+</RelativeLayout>
