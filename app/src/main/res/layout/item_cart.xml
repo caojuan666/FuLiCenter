@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/iv_choose"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/checkbox_normal"/>
+    <ImageView
+        android:id="@+id/iv_goods"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/iv_choose"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/category_child"/>
+    <TextView
+        android:id="@+id/tv_goodsPrice"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="￥400"
+        />
+    <TextView
+        android:id="@+id/tv_goodsName"
+        android:layout_marginTop="6dp"
+        android:layout_toRightOf="@id/iv_goods"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="鞋子真漂亮"/>
+    <ImageView
+        android:id="@+id/iv_add_Count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/add_cart"
+        android:layout_toRightOf="@id/iv_goods"
+        android:layout_marginTop="35dp"/>
+    <TextView
+        android:id="@+id/tv_goods_counts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:layout_below="@id/tv_goodsName"
+        android:layout_marginTop="14dp"
+        android:layout_toEndOf="@+id/iv_goods"
+        android:layout_marginLeft="25dp"
+        />
+    <ImageView
+        android:id="@+id/iv_delete_counts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/del_cart"
+        android:layout_toRightOf="@id/tv_goods_counts"
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="18dp"
+        />
+
+
+
+
+
+
+</RelativeLayout>
