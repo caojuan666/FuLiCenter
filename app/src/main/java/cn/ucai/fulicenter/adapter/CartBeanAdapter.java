@@ -125,7 +125,7 @@ public class CartBeanAdapter extends RecyclerView.Adapter {
              public   void addCart(){
             final int position = (int) ivAddCount.getTag();
                 CartBean cart = mList.get(position);
-                NetDao.updateCart(mContext, cart.getId(), cart.getCount(), new OkHttpUtils.OnCompleteListener<MessageBean>() {
+                NetDao.updateCart(mContext, cart.getId(), cart.getCount()+1, new OkHttpUtils.OnCompleteListener<MessageBean>() {
                     @Override
                     public void onSuccess(MessageBean result) {
                         if(result!=null){
@@ -144,5 +144,33 @@ public class CartBeanAdapter extends RecyclerView.Adapter {
 
 
             }
+        @OnClick(R.id.iv_delete_counts)
+        public   void delCart(){
+            final int position = (int) ivAddCount.getTag();
+            CartBean cart = mList.get(position);
+            if(cart.getCount()>1) {
+
+
+                NetDao.updateCart(mContext, cart.getId(), cart.getCount()-1, new OkHttpUtils.OnCompleteListener<MessageBean>() {
+                    @Override
+                    public void onSuccess(MessageBean result) {
+                        if (result != null) {
+                            mList.get(position).setCount(mList.get(position).getCount() - 1);
+                            mContext.sendBroadcast(new Intent(I.BROADCAST_UPDATE_CATR));
+                            tvGoodsCounts.setText(String.valueOf(mList.get(position).getCount()));
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+
+                    }
+                });
+            }else {
+
+            }
+
+        }
     }
 }
