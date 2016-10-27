@@ -20,6 +20,9 @@ import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.CartBean;
 import cn.ucai.fulicenter.bean.GoodsDetailsBean;
+import cn.ucai.fulicenter.bean.MessageBean;
+import cn.ucai.fulicenter.net.NetDao;
+import cn.ucai.fulicenter.net.OkHttpUtils;
 import cn.ucai.fulicenter.utils.ImageLoader;
 
 
@@ -120,10 +123,25 @@ public class CartBeanAdapter extends RecyclerView.Adapter {
         }
             @OnClick(R.id.iv_add_Count)
              public   void addCart(){
-            int position = (int) ivAddCount.getTag();
-                mList.get(position).setCount(mList.get(position).getCount()+1);
-                mContext.sendBroadcast(new Intent(I.BROADCAST_UPDATE_CATR));
-                tvGoodsCounts.setText(String.valueOf(mList.get(position).getCount()));
+            final int position = (int) ivAddCount.getTag();
+                CartBean cart = mList.get(position);
+                NetDao.updateCart(mContext, cart.getId(), cart.getCount(), new OkHttpUtils.OnCompleteListener<MessageBean>() {
+                    @Override
+                    public void onSuccess(MessageBean result) {
+                        if(result!=null){
+                            mList.get(position).setCount(mList.get(position).getCount()+1);
+                            mContext.sendBroadcast(new Intent(I.BROADCAST_UPDATE_CATR));
+                            tvGoodsCounts.setText(String.valueOf(mList.get(position).getCount()));
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+
+                    }
+                });
+
 
             }
     }
