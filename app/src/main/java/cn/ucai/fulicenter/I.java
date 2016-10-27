@@ -54,6 +54,8 @@ public interface I {
     int REQUEST_CODE_LOGIN = 102;
     int REQUEST_CODE_NICK = 103;
     int REQUEST_CODE_LOGIN_FROM_CART = 104;
+    int CART_CHECKED_DEFAULT = 0;
+    String BROADCAST_UPDATE_CATR = "cn.ucai.fulicenter.update.cart";
 
 //    int REQUEST_CODE_REGISTE=101;
 

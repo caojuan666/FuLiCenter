@@ -1,6 +1,10 @@
 package cn.ucai.fulicenter.fragment;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -24,6 +28,7 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.MainActivity;
 import cn.ucai.fulicenter.adapter.CartBeanAdapter;
 import cn.ucai.fulicenter.bean.CartBean;
+import cn.ucai.fulicenter.bean.CollectBean;
 import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.net.CommonUtils;
 import cn.ucai.fulicenter.net.NetDao;
@@ -50,7 +55,7 @@ public class CartFragment extends BaseFragment {
     MainActivity mContext;
     CartBeanAdapter mAdapter;
     ArrayList<CartBean> mList;
-//
+    //
     @BindView(R.id.tv_cart_sum_price)
     TextView tvCartSumPrice;
     @BindView(R.id.tv_save_price)
@@ -59,6 +64,7 @@ public class CartFragment extends BaseFragment {
     RelativeLayout layoutCart;
     @BindView(R.id.tv_nothing)
     TextView tvNothing;
+    updateCartReceiver mReceiver;
 
     public CartFragment() {
 
@@ -87,6 +93,10 @@ public class CartFragment extends BaseFragment {
     @Override
     protected void setListener() {
         setPulldown();
+//        註冊廣播
+        IntentFilter filter = new IntentFilter(I.BROADCAST_UPDATE_CATR);
+        mReceiver = new updateCartReceiver();
+        mContext.registerReceiver(mReceiver, filter);
 
     }
 
@@ -114,10 +124,12 @@ public class CartFragment extends BaseFragment {
 
                     if (list != null && list.size() > 0) {
                         Log.i(TAG, "s=" + list.get(0));
-                        mAdapter.initData(list);
+                        mList.clear();
+                        mList.addAll(list);
+                        mAdapter.initData(mList);
 //                        當有商品時“空空”被隱藏，否則顯示
                         setCartLayout(true);
-                    }else {
+                    } else {
                         setCartLayout(false);
                     }
                 }
@@ -154,13 +166,60 @@ public class CartFragment extends BaseFragment {
         rv.addItemDecoration(new SpaceItemDecoration(12));
         setCartLayout(false);
     }
-//    顯示購物車中的數據
+
+    //    顯示購物車中的數據
     private void setCartLayout(boolean hasCart) {
-        layoutCart.setVisibility(hasCart?View.VISIBLE:View.GONE);
-        tvNothing.setVisibility(hasCart?View.GONE:View.VISIBLE);
+        layoutCart.setVisibility(hasCart ? View.VISIBLE : View.GONE);
+        tvNothing.setVisibility(hasCart ? View.GONE : View.VISIBLE);
+        rv.setVisibility(hasCart ? View.VISIBLE : View.GONE);
+        sumPrice();
     }
 
     @OnClick(R.id.tv_cart_buy)
     public void onClick() {
+    }
+//计算价格
+   private void sumPrice() {
+        int sumPrice = 0;
+        int ranPrice = 0;
+        if (mList != null && mList.size() > 0) {
+            for (CartBean c : mList) {
+                if (c.isChecked()) {
+                    sumPrice += getPrice(c.getGoods().getCurrencyPrice())*c.getCount();
+                    ranPrice += getPrice(c.getGoods().getRankPrice())*c.getCount();
+                }
+            }
+            tvCartSumPrice.setText("合计：￥" + Double.valueOf(ranPrice));
+            tvSavePrice.setText("节省：￥" + Double.valueOf(sumPrice - ranPrice));
+
+        }else {
+            tvCartSumPrice.setText("合计：￥0");
+            tvSavePrice.setText("节省：￥0");
+        }
+
+    }
+
+    private int getPrice(String price) {
+        price = price.substring(price.indexOf("￥") + 1);
+        return Integer.valueOf(price);
+    }
+//    接受廣播
+    class updateCartReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            L.e(TAG,"updateCartReceiver...");
+//            接受廣播更新價錢
+            sumPrice();
+        }
+    }
+//    註冊廣播之後銷毀廣播
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(mReceiver!=null){
+            mContext.unregisterReceiver(mReceiver);
+        }
     }
 }

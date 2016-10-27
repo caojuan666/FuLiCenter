@@ -14,6 +14,7 @@ import cn.ucai.fulicenter.bean.GoodsDetailsBean;
 import cn.ucai.fulicenter.bean.MessageBean;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.bean.Result;
+import cn.ucai.fulicenter.utils.L;
 import cn.ucai.fulicenter.utils.MD5;
 
 /**
@@ -47,11 +48,11 @@ public class NetDao {
                 .execute(listener);
 
     }
-    public static void downloadCart(Context context,String usename, OkHttpUtils.OnCompleteListener<CartBean[]> listener) {
-        OkHttpUtils<CartBean[]> utils = new OkHttpUtils<>(context);
+    public static void downloadCart(Context context,String userame, OkHttpUtils.OnCompleteListener<String> listener) {
+        OkHttpUtils<String> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_FIND_CARTS)
-                .addParam(I.Cart.USER_NAME,usename)
-                .targetClass(CartBean[].class)
+                .addParam(I.Cart.USER_NAME,userame)
+                .targetClass(String.class)
                 .execute(listener);
 
     }
@@ -176,6 +177,17 @@ public class NetDao {
                 .addParam(I.Collect.GOODS_ID,String.valueOf(goodId))
                 .targetClass(MessageBean.class)
                 .execute(listener);
+    }
+    public  static void updateCart(Context context, int cartId, int count, OkHttpUtils.OnCompleteListener<MessageBean> listener){
+        OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_UPDATE_CART)
+                .addParam(I.Cart.ID,String.valueOf(cartId))
+                .addParam(I.Cart.COUNT,String.valueOf(count))
+                .addParam(I.Cart.IS_CHECKED,String.valueOf(I.CART_CHECKED_DEFAULT))
+                .targetClass(MessageBean.class)
+                .execute(listener);
+
+
     }
 
 
