@@ -3,16 +3,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/iv_choose"
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/checkbox_normal"/>
+
     <ImageView
         android:id="@+id/iv_goods"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/iv_choose"
+        android:layout_marginLeft="30dp"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:src="@drawable/category_child"/>
@@ -31,13 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="鞋子真漂亮"/>
-    <ImageView
-        android:id="@+id/iv_add_Count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/add_cart"
-        android:layout_toRightOf="@id/iv_goods"
-        android:layout_marginTop="35dp"/>
+
     <TextView
         android:id="@+id/tv_goods_counts"
         android:layout_width="wrap_content"
@@ -55,12 +43,28 @@
         android:src="@mipmap/del_cart"
         android:layout_toRightOf="@id/tv_goods_counts"
         android:layout_marginTop="35dp"
-        android:layout_marginLeft="18dp"
+        android:layout_marginLeft="12dp"
         />
 
+    <CheckBox
 
+        android:id="@+id/cb_cart_Select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/CustomCheckboxTheme"
+        android:layout_marginLeft="5dp"
+        android:checked="false"
+        android:layout_below="@+id/tv_goodsName"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="13dp" />
 
-
+    <ImageView
+        android:id="@+id/iv_add_Count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/add_cart"
+        android:layout_alignTop="@+id/tv_goods_counts"
+        android:layout_toEndOf="@+id/iv_goods" />
 
 
 </RelativeLayout>
