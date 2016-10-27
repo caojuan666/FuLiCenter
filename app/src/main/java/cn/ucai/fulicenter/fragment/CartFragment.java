@@ -161,7 +161,7 @@ public class CartFragment extends BaseFragment {
 //        是否修饰大小
         rv.setLayoutManager(llm);
         rv.setHasFixedSize(true);
-        mList = new ArrayList<>();
+//        mList = new ArrayList<>();
         rv.setAdapter(mAdapter);
         rv.addItemDecoration(new SpaceItemDecoration(12));
         setCartLayout(false);
@@ -169,6 +169,7 @@ public class CartFragment extends BaseFragment {
 
     //    顯示購物車中的數據
     private void setCartLayout(boolean hasCart) {
+
         layoutCart.setVisibility(hasCart ? View.VISIBLE : View.GONE);
         tvNothing.setVisibility(hasCart ? View.GONE : View.VISIBLE);
         rv.setVisibility(hasCart ? View.VISIBLE : View.GONE);
@@ -211,6 +212,7 @@ public class CartFragment extends BaseFragment {
             L.e(TAG,"updateCartReceiver...");
 //            接受廣播更新價錢
             sumPrice();
+          setCartLayout(mList!=null&&mList.size()>0);
         }
     }
 //    註冊廣播之後銷毀廣播

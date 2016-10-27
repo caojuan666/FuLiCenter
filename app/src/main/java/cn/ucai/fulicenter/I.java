@@ -57,6 +57,7 @@ public interface I {
     int CART_CHECKED_DEFAULT = 0;
     String BROADCAST_UPDATE_CATR = "cn.ucai.fulicenter.update.cart";
 
+
 //    int REQUEST_CODE_REGISTE=101;
 
     interface Goods {

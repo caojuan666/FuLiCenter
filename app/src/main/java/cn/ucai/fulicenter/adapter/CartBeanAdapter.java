@@ -56,6 +56,7 @@ public class CartBeanAdapter extends RecyclerView.Adapter {
             ImageLoader.downloadImg(mContext, ((CartViewHolder) holder).ivGoods, goods.getGoodsThumb());
             ((CartViewHolder) holder).tvGoodsName.setText(goods.getGoodsName());
             ((CartViewHolder) holder).tvGoodsPrice.setText(goods.getCurrencyPrice());
+            ((CartViewHolder) holder).cbCartSelect.setChecked(cartBean.isChecked());
             ((CartViewHolder) holder).cbCartSelect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean b) {
@@ -168,7 +169,22 @@ public class CartBeanAdapter extends RecyclerView.Adapter {
                     }
                 });
             }else {
+                    NetDao.delCart(mContext, cart.getId(), new OkHttpUtils.OnCompleteListener<MessageBean>() {
+                        @Override
+                        public void onSuccess(MessageBean result) {
+                            if(result!=null&&result.isSuccess()){
+                                mList.remove(position);
+                                mContext.sendBroadcast(new Intent(I.BROADCAST_UPDATE_CATR));
+                                notifyDataSetChanged();
 
+                            }
+                        }
+
+                        @Override
+                        public void onError(String error) {
+
+                        }
+                    });
             }
 
         }
