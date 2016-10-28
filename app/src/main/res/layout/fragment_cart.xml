@@ -18,7 +18,7 @@
             android:layout_marginEnd="17dp"
             android:layout_marginTop="14dp"
             android:layout_toStartOf="@+id/tv_cart_buy"
-            android:text="合计:10"
+            android:text="合计:"
             android:textSize="16sp" />
 
         <TextView
@@ -27,18 +27,19 @@
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/tv_cart_sum_price"
             android:layout_below="@+id/tv_cart_buy"
-            android:text="节省:2"
+            android:text="节省:"
             android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/tv_cart_buy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="结算:"
+            android:textSize="25sp"
             android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/tv_cart_sum_price"
-            android:text="结算:10"
-            android:textSize="25sp" />
+            android:layout_alignTop="@+id/tv_cart_sum_price" />
     </RelativeLayout>
+
     <TextView
         android:id="@+id/tv_nothing"
         android:layout_width="wrap_content"
