@@ -34,6 +34,7 @@ import cn.ucai.fulicenter.net.CommonUtils;
 import cn.ucai.fulicenter.net.NetDao;
 import cn.ucai.fulicenter.net.OkHttpUtils;
 import cn.ucai.fulicenter.utils.L;
+import cn.ucai.fulicenter.utils.MFGT;
 import cn.ucai.fulicenter.utils.ResultUtils;
 import cn.ucai.fulicenter.view.SpaceItemDecoration;
 
@@ -65,6 +66,8 @@ public class CartFragment extends BaseFragment {
     @BindView(R.id.tv_nothing)
     TextView tvNothing;
     updateCartReceiver mReceiver;
+    int orderPrice = 0;
+    String cartIds="";
 
     public CartFragment() {
 
@@ -178,14 +181,22 @@ public class CartFragment extends BaseFragment {
 
     @OnClick(R.id.tv_cart_buy)
     public void onClick() {
+        if(cartIds!=null&&!cartIds.equals("")&&cartIds.length()>0){
+            MFGT.gotoBuy(mContext,cartIds);
+        }else {
+            CommonUtils.showLongToast(R.string.order_noting);
+        }
     }
 //计算价格
    private void sumPrice() {
         int sumPrice = 0;
         int ranPrice = 0;
+        cartIds = "";
         if (mList != null && mList.size() > 0) {
             for (CartBean c : mList) {
                 if (c.isChecked()) {
+                    cartIds +=c.getId()+",";
+
                     sumPrice += getPrice(c.getGoods().getCurrencyPrice())*c.getCount();
                     ranPrice += getPrice(c.getGoods().getRankPrice())*c.getCount();
                 }
@@ -194,6 +205,7 @@ public class CartFragment extends BaseFragment {
             tvSavePrice.setText("节省：￥" + Double.valueOf(sumPrice - ranPrice));
 
         }else {
+            cartIds = "";
             tvCartSumPrice.setText("合计：￥0");
             tvSavePrice.setText("节省：￥0");
         }

@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/title_back_imageView"
-        android:text="账户登录"
+        android:text="确认订单"
         android:layout_centerInParent="true"
         android:textColor="@color/bg_gray_light"
         />
