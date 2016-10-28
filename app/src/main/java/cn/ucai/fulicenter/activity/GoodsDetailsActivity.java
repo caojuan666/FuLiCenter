@@ -229,7 +229,7 @@ public class GoodsDetailsActivity extends BaseActivty {
             goodsDetailCollectImageView.setImageResource(R.mipmap.bg_collect_in);
         }
     }
-    @OnClick(R.id.goodsDetail_share_imageView)
+    @OnClick(R.id.goodsDetail_cart_imageView)
     public void addCart(){
         User user = FuLiCenterApplication.getUser();
         if(user!=null){
