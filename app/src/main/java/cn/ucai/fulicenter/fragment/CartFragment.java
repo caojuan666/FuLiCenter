@@ -224,4 +224,10 @@ public class CartFragment extends BaseFragment {
             mContext.unregisterReceiver(mReceiver);
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initDate();
+    }
 }

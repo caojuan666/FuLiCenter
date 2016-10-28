@@ -26,9 +26,10 @@ import cn.ucai.fulicenter.view.FlowIndicator;
 import cn.ucai.fulicenter.view.SlideAutoLoopView;
 
 public class GoodsDetailsActivity extends BaseActivty {
+    private static final String TAG = GoodsDetailsActivity.class.getSimpleName();
 
-    int
-            goodsID;
+    int goodsID;
+
     GoodsDetailsActivity mContext;
     @BindView(R.id.title_back_imageView)
     ImageView titleBackImageView;
@@ -69,11 +70,13 @@ public class GoodsDetailsActivity extends BaseActivty {
 //        setListener();
 
     }
+    @OnClick()
 
     @Override
     protected void setListener() {
 
     }
+
 
     @Override
     protected void initData() {
@@ -225,6 +228,33 @@ public class GoodsDetailsActivity extends BaseActivty {
         } else {
             goodsDetailCollectImageView.setImageResource(R.mipmap.bg_collect_in);
         }
+    }
+    @OnClick(R.id.goodsDetail_share_imageView)
+    public void addCart(){
+        User user = FuLiCenterApplication.getUser();
+        if(user!=null){
+            NetDao.addCart(mContext, user.getMuserName(), goodsID, new OkHttpUtils.OnCompleteListener<MessageBean>() {
+                @Override
+                public void onSuccess(MessageBean result) {
+                    if(result!=null&&result.isSuccess()){
+                        CommonUtils.showLongToast(R.string.add_goods_success);
+                    }else {
+                        CommonUtils.showLongToast(R.string.add_goods_fail);
+                    }
+                }
+
+                @Override
+                public void onError(String error) {
+                    CommonUtils.showLongToast(R.string.add_goods_fail);
+                    L.e(TAG,"error="+error);
+
+                }
+            });
+        }else {
+            MFGT.gotoLogin(mContext);
+
+        }
+
     }
 
     @OnClick(R.id.goodsDetail_share_imageView)
