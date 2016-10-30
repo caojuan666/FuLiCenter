@@ -46,5 +46,8 @@ dependencies {
     compile files('D:/AndroidStudio/ws_201607/FuLiCenter/libs/ShareSDK-Wechat-Core-2.7.8.jar')
     compile files('D:/AndroidStudio/ws_201607/FuLiCenter/libs/ShareSDK-Wechat-Favorite-2.7.8.jar')
     compile files('D:/AndroidStudio/ws_201607/FuLiCenter/libs/ShareSDK-Wechat-Moments-2.7.8.jar')
+    compile project(':lib:bdwallet_pay_sdk')
+    compile project(':lib:pingpp')
+    compile project(':lib:pingpp_one')
 }
 
